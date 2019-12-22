@@ -1,0 +1,39 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: rabbitmq-producer
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+    stream:
+      rabbit:
+        bindings:
+          tradeUpdatedOutput:
+            producer:
+              transacted: true
+              routingKeyExpression: '"trade.event.updated"'
+          tradeCreatedOutput:
+            producer:
+              transacted: true
+              routingKeyExpression: '"trade.event.created"'
+      bindings:
+        tradeUpdatedOutput:
+          destination: trade
+          contentType: application/json
+        tradeCreatedOutput:
+          destination: trade
+          contentType: application/json
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq_user
+    password: 'ymXURN0Vo9ahbFmfhPu7'
